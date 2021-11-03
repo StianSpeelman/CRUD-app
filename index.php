@@ -6,6 +6,7 @@
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
 		<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1"/>
 		<title>ToDo-List</title>
+		<link href="images/favicon.png" rel="icon" type="image/png" />
 	</head>
 <body>
     <nav class="navbar navbar-default">
