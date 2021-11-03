@@ -2,19 +2,68 @@
     require 'includes/DBH.conn.php';
 ?>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDo-list</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-</head>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+		<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1"/>
+		<title>ToDo-List</title>
+	</head>
 <body>
-    <div id="">
+    <nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+			Special thanks to: </a>
+		</div>
+	</nav>
+	<div class="col-md-3"></div>
+	<div class="col-md-6 well">
+		<h3 class="task-primary">Simple ToDo List</h3>
+		<hr style="border-top:1pc dotted #ccc;"/>
+	<div class="col-md-2"></div>
+	<div class="col-md-8">
+		<center>
+			<form method="POST" class="form-inline" action="includes/add.php">
+			<input type="text" class="form-control" name="task" required/>
+			<button class="btn btn-primary form-control" name="add">Add Task</button>
+		</form>
+	</center>
 </div>
-    
+<br /><br /><br />
+<table class="table">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Task</th>
+			<th>Status</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php
+			$query = $conn->query("SELECT * FROM `task` ORDER BY `task_id` ASC");
+			$count = 1;
+			while($fetch = $query->fetch_array()){
+				?>
+			<tr>
+				<td><?php echo $count++?></td>
+				<td><?php echo $fetch['task']?></td>
+				<td><?php echo $fetch['status']?></td>
+				<td colspan="2">
+					<center>
+						<?php
+							if($fetch['status'] != "Done"){
+								echo 
+									'<a href="includes/update_task_stat.php?task_id='.$fetch['task_id'].'" class="btn btn-success"><span class="glyphicon glyphicon-check"></span></a> |';
+							}
+							?>
+						<a href="includes/delete.php?task_id=<?php echo $fetch['task_id']?>" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></a>
+						</center>
+					</td>
+				</tr>
+				<?php
+					}
+				?>
+			</tbody>
+		</table>
+	</div>
 </body>
-<?php
-    require 'includes/footer.php';
-?>
 </html>
